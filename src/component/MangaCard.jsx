@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { IoRibbonSharp } from "react-icons/io5";
+import { IoThumbsUp } from "react-icons/io5";
 
 const MANGA_BY_ID = "https://api.jikan.moe/v4/manga/";
 const MANGA_RE = "https://api.jikan.moe/v4/manga/";
@@ -13,7 +13,6 @@ function MangaCard(props) {
   const [manga, setManga] = useState(null);
   const [recomend, setRecomend] = useState(null);
   const [showRecModal, setShowRecModal] = useState(false);
-  
 
   async function modalChange(id) {
     await fetch(MANGA_BY_ID + id)
@@ -42,7 +41,7 @@ function MangaCard(props) {
             <div className="relative mx-auto my-6 h-full w-auto max-w-4xl">
               <div className="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none dark:bg-gray-700 dark:text-white">
                 <div className="r flex items-center justify-between rounded-t border-b border-solid border-gray-300 p-5">
-                  <p className="text-3xl  dark:text-white">Recomendation</p>
+                  <p className="text-3xl dark:text-white">Recomendations</p>
                   <button
                     className="float-right border-0 bg-transparent text-black dark:text-white"
                     onClick={() => setShowRecModal(false)}
@@ -54,17 +53,20 @@ function MangaCard(props) {
                     </span>
                   </button>
                 </div>
-                <div className="mx-4 mt-4 grid grid-cols-1 content-start sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+                <div className="mx-4 mt-4 grid grid-cols-1 content-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                   {recomend &&
                     recomend.map((r, index) => {
                       return (
                         <div
                           key={index}
-                          className="mx-2 my-4 max-w-sm overflow-hidden text-clip rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800"
+                          className="mx-2 my-4 max-w-sm overflow-hidden flex flex-col items-center text-clip rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800"
                         >
-                          <img src={r.entry.images.jpg.image_url} className="h-60" />
-                          <div className="flex justify-between">
-                            <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 hover:text-orange-400 dark:text-white dark:hover:text-orange-400">
+                          <img
+                            src={r.entry.images.jpg.image_url}
+                            className="h-60"
+                          />
+                          <div className="flex">
+                            <h5 className="mt-4 text-lg font-bold tracking-tight text-gray-900 hover:text-orange-400 dark:text-white dark:hover:text-orange-400">
                               {r.entry.title}
                             </h5>
                             <div className="group"></div>
@@ -75,7 +77,7 @@ function MangaCard(props) {
                 </div>
 
                 <div className="border-blueGray-200 flex items-center justify-end gap-4 rounded-b border-t border-solid p-6">
-                <button
+                  <button
                     className="float-right border-0 bg-transparent text-black dark:text-white"
                     onClick={() => setShowRecModal(false)}
                   >
@@ -97,11 +99,11 @@ function MangaCard(props) {
         //   <img src={manga.images?.jpg?.image_url} className="h-80" />
         // </div>
         <>
-          <div className="overflow-y-ato fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden outline-none focus:outline-none">
+          <div className="overflow-y-auto fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden outline-none focus:outline-none">
             <div className="relative mx-auto my-6 h-full w-auto max-w-4xl">
               <div className="relative flex w-full flex-col rounded-lg border-0 bg-white shadow-lg outline-none focus:outline-none dark:bg-gray-700 dark:text-white">
-                <div className="r flex items-center justify-between rounded-t border-b border-solid border-gray-300 p-5">
-                  <h3 className="font=semibold px-48 text-4xl">
+                <div className="r flex  items-center justify-between rounded-t border-b border-solid border-gray-300 p-5 ">
+                  <h3 className="font=semibold px-4 lg:px-48 lg:text-4xl text-2xl ">
                     {manga.title}{" "}
                   </h3>
                   <button
@@ -116,7 +118,7 @@ function MangaCard(props) {
                   </button>
                 </div>
 
-                <div className="border-blueGray-200 flex items-center justify-end gap-4 rounded-b border-t border-solid p-6">
+                <div className="border-blueGray-200 flex flex-col items-center justify-end gap-4 rounded-b border-t border-solid p-6  md:flex-row">
                   <img src={manga.images?.jpg?.large_image_url} />
                   <div>
                     <h2 className="text-center text-lg">
@@ -130,12 +132,30 @@ function MangaCard(props) {
                     </h4>
                     <br />
                     <h2>{manga.synopsis}</h2>
-                    <p>
-                      chap.{" "}
-                      {manga.chapters === null ? manga.status : manga.chapters}{" "}
-                      &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; status:{" "}
-                      {manga.status}
-                    </p>
+                    <div className="flex justify-between">
+                      <p>
+                        chap.{" "}
+                        {manga.chapters === null
+                          ? manga.status
+                          : manga.chapters}{" "}
+                        &nbsp;&nbsp; &nbsp; &nbsp;&nbsp; &nbsp; status:{" "}
+                        {manga.status}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          recomendation(manga.mal_id);
+                          setShowModal(false);
+                        }}
+                        className="text-gray-900 hover:text-orange-400 dark:text-white dark:hover:text-orange-400"
+                      >
+                        <IoThumbsUp />
+                        <span className="absolute scale-0 rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100">
+                          Recomendations
+                        </span>
+                      </button>
+                    </div>
+
                     <p></p>
                   </div>
                 </div>
@@ -151,20 +171,20 @@ function MangaCard(props) {
               key={index}
               className="mx-2 my-4 max-w-sm overflow-hidden text-clip rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800"
             >
-              <div className="group flex items-center mx-4">
-              <button
-                type="button"
-                onClick={() => {
-                  modalChange(d.mal_id);
-                }}
-              >
-                <img src={d.images?.jpg?.image_url} className="h-80" />
-                <span className="absolute scale-0 rounded bg-gray-800 p-2 text-xs text-white dark:bg-white dark:text-black group-hover:scale-110">
-                      More Details
-                    </span>
-              </button>
-                </div>
-              
+              <div className="group mx-4 flex items-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    modalChange(d.mal_id);
+                  }}
+                >
+                  <img src={d.images?.jpg?.image_url} className="h-80" />
+                  <span className="absolute scale-0 rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-110 dark:bg-gray-700 dark:text-white">
+                    More Details
+                  </span>
+                </button>
+              </div>
+
               <div className="flex justify-between">
                 <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 hover:text-orange-400 dark:text-white dark:hover:text-orange-400">
                   {d.title}
@@ -175,7 +195,7 @@ function MangaCard(props) {
                     onClick={() => recomendation(d.mal_id)}
                     className="text-gray-900 hover:text-orange-400 dark:text-white dark:hover:text-orange-400"
                   >
-                    <IoRibbonSharp />
+                    <IoThumbsUp />
                     <span className="absolute scale-0 rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100">
                       Recomendation
                     </span>
@@ -184,7 +204,7 @@ function MangaCard(props) {
               </div>
 
               <div className="h-24 overflow-hidden">
-                <h5 className="text-sm">{d.background}</h5>
+                <h5 className="text-sm dark:text-white">{d.synopsis}</h5>
               </div>
             </div>
           );
