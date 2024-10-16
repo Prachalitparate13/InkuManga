@@ -5,8 +5,8 @@ function Footer() {
     <div className="flex flex-col items-center p-20 dark:bg-gray-900 dark:text-white">
       <h3 className="text-xl">
         {" "}
-        This is develepod by{" "}
-        <span className="text-orange-400">prachalit parate</span> just for fun
+        This is developed by{" "}
+        <a href='https://www.linkedin.com/in/prachalit-parate/' className="text-orange-400" target="blank">prachalit parate</a> just for fun
       </h3>
       <p className="text-xl">
         {" "}

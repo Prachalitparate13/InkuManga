@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import MangaCard from "./MangaCard";
 // import { getManga } from "../api/mangaapi";
-const MNAGA_URL = "https://api.jikan.moe/v4/manga?limit=25";
+const MNAGA_URL = "https://api.jikan.moe/v4/manga?limit=25&sfw=true";
 
 export default function Manga() {
   const [mangaData, setMangaData] = useState(null);
